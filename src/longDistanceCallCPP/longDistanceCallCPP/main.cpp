@@ -75,17 +75,19 @@ int main(int argc, const char * argv[]) {
             day2 = toupper(day2);
             // Call day checker
             dayCheck = dayChecker(day1, day2);
-        
+            
+            // If day is invalid
             if (!dayCheck) {
                 cout << "Invalid day of week..." << endl;
                 cout << "Please try again..." << endl << endl;
             }
             else;
                 
-        } while (!dayCheck);   // End of Day check
+        } while (!dayCheck);   // Loop if day invalid
         
         // Input the time the call was started
         cout << endl;   // Blank line
+        // Loop for checking time
         do {   // Start check for valid time format
             cout << "Enter the time the call was started (ex: 14:35): ";
             // Collect 3 part time input
@@ -93,19 +95,30 @@ int main(int argc, const char * argv[]) {
             // call timeChecker()
             timeCheck = timeChecker(hour, separator, minute);
             
+            // If invalid
             if (!timeCheck) {
                 cout << "Incorrect time format..." << endl;
                 cout << "Please try again..." << endl << endl;
             } else;
             
-        } while (!timeCheck);
-        // Convert time to 24 hr time
+        } while (!timeCheck);   // Loop if time is invalid
+        
+        // Convert time to 24 hr time by multiplying hours by 100 ie 17 becomes 1700
         timeStarted = hour*100 + minute;
         
         // Input length of call
-        cout << endl;
-        cout << "Enter the length of the call in minutes: ";
-        cin >> lengthOfCall;
+        // Loop to check length isn't negative
+        do {  // Check to see if length isn't negative
+            cout << endl;
+            cout << "Enter the length of the call in minutes: ";
+            cin >> lengthOfCall;
+            
+            // Call length input negative?
+            if (lengthOfCall < 0) {
+                cout << "Length of call must be a positive integer..." << endl;
+                cout << "Please try again..." << endl <<endl;
+            }
+        } while (lengthOfCall < 0);
         
         // Process for billing rate and then cost
         // Test for weekend
