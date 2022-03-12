@@ -15,6 +15,8 @@
 # include <iomanip>
 // Used to omit "std::" from cin cout
 using namespace std;
+// Define dayChecker function
+bool dayChecker (char charOne, char charTwo);
 
 // Start main
 int main(int argc, const char * argv[]) {
@@ -46,19 +48,36 @@ int main(int argc, const char * argv[]) {
     // Computed cost of the call
     double costOfCall;
     
+    // Function variables
+    bool dayCheck = false;  // Set to false to prime loop
+    
     // Welcome message
     cout << "===============================================" << endl;
     cout << " Welcome to the Long Distance Call Calculator! " << endl;
     cout << "===============================================" << endl;
     // Start  input
     do {
-        // Input day of the week
-        cout << "Enter the day (Mo Tu We Th Fr Sa Su): ";
-        // 2 char input
-        cin >> day1 >> day2;
-        // Convert toupper()
-        day1 = toupper(day1);
-        day2 = toupper(day2);
+        
+        //Loop for checking day
+        while (!dayCheck) {
+            
+            // Input day of the week
+            cout << "Enter the day (Mo Tu We Th Fr Sa Su): ";
+            // 2 char input
+            cin >> day1 >> day2;
+            // Convert toupper()
+            day1 = toupper(day1);
+            day2 = toupper(day2);
+            // Call day checker
+            dayCheck = dayChecker(day1, day2);
+        
+                if (!dayCheck) {
+                    cout << "Invalid day of week" << endl;
+                    cout << "Please try again" << endl;
+                }
+                else;
+                
+        }   // End of Day check
         
         // Input the time the call was started
         cout << "Enter the time the call was started (ex: 14:35): ";
@@ -107,4 +126,22 @@ int main(int argc, const char * argv[]) {
     cout << " Thank you for using the Long Distance Call Calculator " << endl;
     cout << "=======================================================" << endl;
     return 0;
+}   // End of main
+
+// Day checker function
+bool dayChecker (char charOne, char charTwo) {
+    bool dayOfWeek;   // Flag assumes day of week
+    if (charOne == 'M' && charTwo == 'O')  // Monday
+        dayOfWeek = true;
+    else if (charOne == 'T' && (charTwo == 'U' || charTwo == 'H'))  // Tues or Thurs
+        dayOfWeek = true;
+    else if (charOne == 'W' && charTwo == 'E')   // Wednesday
+        dayOfWeek = true;
+    else if (charOne == 'F' && charTwo == 'R')   // Friday
+        dayOfWeek = true;
+    else if (charOne == 'S' && (charTwo == 'A' || charTwo == 'U'))   // Sat or Sun
+        dayOfWeek = true;
+    else
+        dayOfWeek = false;
+    return dayOfWeek;
 }
