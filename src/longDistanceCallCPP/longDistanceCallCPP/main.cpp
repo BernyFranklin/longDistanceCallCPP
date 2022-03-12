@@ -13,10 +13,14 @@
 #include <cstring>
 // Used for 2 places past decimal
 # include <iomanip>
+
 // Used to omit "std::" from cin cout
 using namespace std;
+
 // Define dayChecker function
 bool dayChecker (char charOne, char charTwo);
+// Define timeChecker function
+bool timeChecker (int hr, char sep, int min);
 
 // Start main
 int main(int argc, const char * argv[]) {
@@ -49,7 +53,8 @@ int main(int argc, const char * argv[]) {
     double costOfCall;
     
     // Function variables
-    bool dayCheck = false;  // Set to false to prime loop
+    bool dayCheck;  // Used for dayChecker()
+    bool timeCheck;   // Used for timeChecker()
     
     // Welcome message
     cout << "===============================================" << endl;
@@ -59,7 +64,7 @@ int main(int argc, const char * argv[]) {
     do {
         
         //Loop for checking day
-        while (!dayCheck) {
+        do {
             
             // Input day of the week
             cout << "Enter the day (Mo Tu We Th Fr Sa Su): ";
@@ -71,22 +76,34 @@ int main(int argc, const char * argv[]) {
             // Call day checker
             dayCheck = dayChecker(day1, day2);
         
-                if (!dayCheck) {
-                    cout << "Invalid day of week" << endl;
-                    cout << "Please try again" << endl;
-                }
-                else;
+            if (!dayCheck) {
+                cout << "Invalid day of week..." << endl;
+                cout << "Please try again..." << endl << endl;
+            }
+            else;
                 
-        }   // End of Day check
+        } while (!dayCheck);   // End of Day check
         
         // Input the time the call was started
-        cout << "Enter the time the call was started (ex: 14:35): ";
-        // Collect 3 part time input
-        cin >> hour >> separator >> minute;
+        cout << endl;   // Blank line
+        do {   // Start check for valid time format
+            cout << "Enter the time the call was started (ex: 14:35): ";
+            // Collect 3 part time input
+            cin >> hour >> separator >> minute;
+            // call timeChecker()
+            timeCheck = timeChecker(hour, separator, minute);
+            
+            if (!timeCheck) {
+                cout << "Incorrect time format..." << endl;
+                cout << "Please try again..." << endl << endl;
+            } else;
+            
+        } while (!timeCheck);
         // Convert time to 24 hr time
         timeStarted = hour*100 + minute;
         
         // Input length of call
+        cout << endl;
         cout << "Enter the length of the call in minutes: ";
         cin >> lengthOfCall;
         
@@ -130,7 +147,7 @@ int main(int argc, const char * argv[]) {
 
 // Day checker function
 bool dayChecker (char charOne, char charTwo) {
-    bool dayOfWeek;   // Flag assumes day of week
+    bool dayOfWeek;   // Flag for valid day
     if (charOne == 'M' && charTwo == 'O')  // Monday
         dayOfWeek = true;
     else if (charOne == 'T' && (charTwo == 'U' || charTwo == 'H'))  // Tues or Thurs
@@ -144,4 +161,14 @@ bool dayChecker (char charOne, char charTwo) {
     else
         dayOfWeek = false;
     return dayOfWeek;
+}   // End of Day checker function
+
+// Time checker function
+bool timeChecker (int hr, char sep, int min) {
+    bool isValid = true;   // Assume tiem is valid unless proven otherwise
+    if (!(hr >= 0 && hr <= 23) ||
+        sep != ':' ||
+        !(min >= 0 && min <= 59))   // Hrs not between 0-23
+        isValid = false;
+    return isValid;
 }
