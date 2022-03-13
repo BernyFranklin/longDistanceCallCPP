@@ -53,14 +53,13 @@ int main(int argc, const char * argv[]) {
     // Welcome message
     cout << "===============================================" << endl;
     cout << " Welcome to the Long Distance Call Calculator! " << endl;
-    cout << "===============================================" << endl << endl;
+    cout << "===============================================" << endl;
     
     // Start input
     do {
-        
+        cout << endl;   // Blank line
         //Loop for checking day
         do {
-            
             // Input day of the week
             cout << "Enter the day (Mo Tu We Th Fr Sa Su): ";
             // 2 char input
@@ -70,43 +69,31 @@ int main(int argc, const char * argv[]) {
             day2 = toupper(day2);
             // Call day checker
             dayCheck = dayChecker(day1, day2);
-            
-            // If day is invalid
-            if (!dayCheck) {
-                cout << "Invalid day of week..." << endl;
-                cout << "Please try again..." << endl << endl;
-            }
-            else;
-                
         } while (!dayCheck);   // Loop if day invalid
-        
-        // Input the time the call was started
+
         cout << endl;   // Blank line
-        // Loop for checking time
-        do {   // Start check for valid time format
+        
+        // Loop for checking call time
+        do {
+            // Ask for call time
             cout << "Enter the time the call was started (00:00 - 23:59): ";
             // Collect 3 part time input
             cin >> hour >> separator >> minute;
             // call timeChecker()
             timeCheck = timeChecker(hour, separator, minute);
-            
-            // If invalid
-            if (!timeCheck) {
-                cout << "Please try again..." << endl << endl;   // timeChecker() has display for each error
-            } else;
-            
         } while (!timeCheck);   // Loop if time is invalid
         
         // Convert time to 24 hr time by multiplying hours by 100 ie 17 becomes 1700
         timeStarted = hour*100 + minute;
         
-        // Input length of call
+        cout << endl;   // Blank line
+        
         // Loop to check length isn't negative
-        do {  // Check to see if length isn't negative
-            cout << endl;
+        do {
+            // Ask for call length
             cout << "Enter the length of the call in minutes: ";
+            // Input call length
             cin >> lengthOfCall;
-            
             // Check if numeric and positive
             callCheck = callLengthValid(lengthOfCall);
         } while (!callCheck);
@@ -130,9 +117,9 @@ int main(int argc, const char * argv[]) {
         costOfCall = lengthOfCall * billingRate;
         
         // Output
-        cout << endl;
-        cout << setiosflags(ios::fixed | ios::showpoint);
-        cout << setprecision(2);
+        cout << endl;                                       // Blank line
+        cout << setiosflags(ios::fixed | ios::showpoint);   // Show decimal
+        cout << setprecision(2);                            // 2 places past decimal
         cout << "Total cost of call is: $" << costOfCall << endl;
         
         // Loop control
@@ -141,7 +128,7 @@ int main(int argc, const char * argv[]) {
         again = toupper(again);
     } while (again == 'Y');
     
-    // End message
+    // Closing message
     cout << endl;
     cout << "=======================================================" << endl;
     cout << " Thank you for using the Long Distance Call Calculator " << endl;
@@ -162,8 +149,11 @@ bool dayChecker (char charOne, char charTwo) {
         dayOfWeek = true;
     else if (charOne == 'S' && (charTwo == 'A' || charTwo == 'U'))   // Sat or Sun
         dayOfWeek = true;
-    else
+    else {
+        cout << "Invalid day of week..." << endl;
+        cout << "Please try again..." << endl << endl;
         dayOfWeek = false;
+    }
     return dayOfWeek;
 }   // End of Day checker function
 
@@ -171,11 +161,12 @@ bool dayChecker (char charOne, char charTwo) {
 bool timeChecker (int hr, char sep, int min) {
     bool isValid = true;   // Assume tiem is valid unless proven otherwise
     if (!cin) {
-        cout << "Input for time must be numeric..." << endl; cin.clear();
+        cout << "Input for time must be numeric..." << endl;
+        cout << "Please try again.." << endl << endl; cin.clear();
         cin.ignore(10000, '\n');
         isValid = false;
         return isValid;
-    } else;
+    }
     // Hrs must be between 0-23
     if (!(hr >= 0 && hr <= 23)) {
         cout << "Hour must be between 0 - 23" << endl;
@@ -191,6 +182,9 @@ bool timeChecker (int hr, char sep, int min) {
         cout << "Minutes must be between 0 - 59" << endl;
         isValid = false;
     }
+    // If flag set add
+    if (!isValid)
+        cout << "Please try again..." << endl << endl;
         
     return isValid;
 }   // End of time checker function
@@ -201,14 +195,15 @@ bool callLengthValid (int inputValue) {
     bool isValid = true;
     // Is input numeric?
     if (!cin) {
-        cout << "Input for call length must be numeric..." << endl; cin.clear();
+        cout << "Input for call length must be numeric..." << endl;
+        cout << "Please try again..." << endl << endl; cin.clear();
         cin.ignore(10000, '\n');   // buffer cleared
         isValid = false;
     }   // End of numeric check
     else if (inputValue < 0) {
         cout << "Input must be positive integer..." << endl;
-        cout << "Please try again..." << endl;
+        cout << "Please try again..." << endl << endl;
         isValid = false;
     }   // End of negative check
     return isValid;
-}
+}   // End of call length validator
