@@ -174,6 +174,7 @@ bool timeChecker (int hr, char sep, int min) {
         cout << "Input for time must be numeric..." << endl; cin.clear();
         cin.ignore(10000, '\n');
         isValid = false;
+        return isValid;
     } else;
     
     if (!(hr >= 0 && hr <= 23)) {
@@ -200,7 +201,7 @@ bool callLengthValid (int inputValue) {
     bool isValid = true;
     // Is input numeric?
     if (!cin) {
-        cout << "Input for time must be numeric..." << endl; cin.clear();
+        cout << "Input for call length must be numeric..." << endl; cin.clear();
         cin.ignore(10000, '\n');
         isValid = false;
     }   // End of numeric check
