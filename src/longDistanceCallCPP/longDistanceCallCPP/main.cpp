@@ -176,21 +176,21 @@ bool timeChecker (int hr, char sep, int min) {
         isValid = false;
         return isValid;
     } else;
-    
+    // Hrs must be between 0-23
     if (!(hr >= 0 && hr <= 23)) {
         cout << "Hour must be between 0 - 23" << endl;
         isValid = false;
-    } else;
-    
+    }
+    // Sep must be semicolon
     if (sep != ':') {
         cout << "Hours and Minutes must be separated by a semicolon" << endl;
         isValid = false;
-    } else;
-        
+    }
+    // Min must be between 0-59
     if (!(min >= 0 && min <= 59)) {
         cout << "Minutes must be between 0 - 59" << endl;
         isValid = false;
-    } else;
+    }
         
     return isValid;
 }   // End of time checker function
@@ -202,7 +202,7 @@ bool callLengthValid (int inputValue) {
     // Is input numeric?
     if (!cin) {
         cout << "Input for call length must be numeric..." << endl; cin.clear();
-        cin.ignore(10000, '\n');
+        cin.ignore(10000, '\n');   // buffer cleared
         isValid = false;
     }   // End of numeric check
     else if (inputValue < 0) {
