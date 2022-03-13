@@ -59,7 +59,7 @@ int main(int argc, const char * argv[]) {
     // Welcome message
     cout << "===============================================" << endl;
     cout << " Welcome to the Long Distance Call Calculator! " << endl;
-    cout << "===============================================" << endl;
+    cout << "===============================================" << endl << endl;
     // Start  input
     do {
         
@@ -89,7 +89,7 @@ int main(int argc, const char * argv[]) {
         cout << endl;   // Blank line
         // Loop for checking time
         do {   // Start check for valid time format
-            cout << "Enter the time the call was started (ex: 14:35): ";
+            cout << "Enter the time the call was started (00:00 - 23:59): ";
             // Collect 3 part time input
             cin >> hour >> separator >> minute;
             // call timeChecker()
@@ -97,7 +97,6 @@ int main(int argc, const char * argv[]) {
             
             // If invalid
             if (!timeCheck) {
-                cout << "Incorrect time format..." << endl;
                 cout << "Please try again..." << endl << endl;
             } else;
             
@@ -179,9 +178,20 @@ bool dayChecker (char charOne, char charTwo) {
 // Time checker function
 bool timeChecker (int hr, char sep, int min) {
     bool isValid = true;   // Assume tiem is valid unless proven otherwise
-    if (!(hr >= 0 && hr <= 23) ||
-        sep != ':' ||
-        !(min >= 0 && min <= 59))   // Hrs not between 0-23
+    if (!(hr >= 0 && hr <= 23)) {
+        cout << "Hour must be between 0 - 23" << endl;
         isValid = false;
+    } else;
+    
+    if (sep != ':') {
+        cout << "Hours and Minutes must be separated by a semicolon" << endl;
+        isValid = false;
+    } else;
+        
+    if (!(min >= 0 && min <= 59)) {
+        cout << "Minutes must be between 0 - 59" << endl;
+        isValid = false;
+    } else;
+        
     return isValid;
 }
