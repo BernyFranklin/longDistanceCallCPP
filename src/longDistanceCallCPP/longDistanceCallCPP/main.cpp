@@ -5,7 +5,7 @@
  * Input: day of week, time of call, call length
  * Output: cost of call
  * 12 Mar 2022
-*/
+ */
 
 // Used for cin cout
 #include <iostream>
@@ -21,6 +21,8 @@ using namespace std;
 bool dayChecker (char charOne, char charTwo);
 // Define timeChecker function
 bool timeChecker (int hr, char sep, int min);
+// Define callValid function
+bool callLengthValid (int inputValue);
 
 // Start main
 int main(int argc, const char * argv[]) {
@@ -31,36 +33,29 @@ int main(int argc, const char * argv[]) {
     const double EVENING_RATE = 0.25;
     // Usual rate is $0.40/min
     const double DAY_RATE = 0.40;
-    // 1st char for day of week
-    char day1;
-    // 2nd char for day of week
-    char day2;
-    // Hour input for start time
-    int hour;
-    // Char separator for ':' entered by user
-    char separator;
-    // Minute inpput for start time
-    int minute;
-    // Length of call input
-    int lengthOfCall;
-    // Used for additional calls
-    char again;
-    // Time started in 24 hour format
-    int timeStarted;
-    // Billing rate used
-    double billingRate;
-    // Computed cost of the call
-    double costOfCall;
+    
+    char day1;            // 1st char for day of week
+    char day2;            // 2nd char for day of week
+    int hour;             // Hour input for start time
+    char separator;       // Char separator for ':' entered by user
+    int minute;           // Minute inpput for start time
+    int lengthOfCall;     // Length of call input
+    char again;           // Used for additional calls
+    int timeStarted;      // Time started in 24 hour format
+    double billingRate;   // Billing rate used
+    double costOfCall;    // Computed cost of the call
     
     // Function variables
-    bool dayCheck;  // Used for dayChecker()
+    bool dayCheck;    // Used for dayChecker()
     bool timeCheck;   // Used for timeChecker()
+    bool callCheck;   // Used for callValid()
     
     // Welcome message
     cout << "===============================================" << endl;
     cout << " Welcome to the Long Distance Call Calculator! " << endl;
     cout << "===============================================" << endl << endl;
-    // Start  input
+    
+    // Start input
     do {
         
         //Loop for checking day
@@ -97,7 +92,7 @@ int main(int argc, const char * argv[]) {
             
             // If invalid
             if (!timeCheck) {
-                cout << "Please try again..." << endl << endl;
+                cout << "Please try again..." << endl << endl;   // timeChecker() has display for each error
             } else;
             
         } while (!timeCheck);   // Loop if time is invalid
@@ -112,12 +107,9 @@ int main(int argc, const char * argv[]) {
             cout << "Enter the length of the call in minutes: ";
             cin >> lengthOfCall;
             
-            // Call length input negative?
-            if (lengthOfCall < 0) {
-                cout << "Length of call must be a positive integer..." << endl;
-                cout << "Please try again..." << endl <<endl;
-            }
-        } while (lengthOfCall < 0);
+            // Check if numeric and positive
+            callCheck = callLengthValid(lengthOfCall);
+        } while (!callCheck);
         
         // Process for billing rate and then cost
         // Test for weekend
@@ -178,6 +170,12 @@ bool dayChecker (char charOne, char charTwo) {
 // Time checker function
 bool timeChecker (int hr, char sep, int min) {
     bool isValid = true;   // Assume tiem is valid unless proven otherwise
+    if (!cin) {
+        cout << "Input for time must be numeric..." << endl; cin.clear();
+        cin.ignore(10000, '\n');
+        isValid = false;
+    } else;
+    
     if (!(hr >= 0 && hr <= 23)) {
         cout << "Hour must be between 0 - 23" << endl;
         isValid = false;
@@ -193,5 +191,23 @@ bool timeChecker (int hr, char sep, int min) {
         isValid = false;
     } else;
         
+    return isValid;
+}   // End of time checker function
+
+// Call Length Validator
+bool callLengthValid (int inputValue) {
+    // Assume good input
+    bool isValid = true;
+    // Is input numeric?
+    if (!cin) {
+        cout << "Input for time must be numeric..." << endl; cin.clear();
+        cin.ignore(10000, '\n');
+        isValid = false;
+    }   // End of numeric check
+    else if (inputValue < 0) {
+        cout << "Input must be positive integer..." << endl;
+        cout << "Please try again..." << endl;
+        isValid = false;
+    }   // End of negative check
     return isValid;
 }
